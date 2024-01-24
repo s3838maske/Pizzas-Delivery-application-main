@@ -28,7 +28,7 @@ export default function Registrationscreen() {
 
   return (
     <div className="  row justify-content-center mt-5">
-      <div className=" register col-md-5 mt-5 text-start shadow p-3 mb-5  rounded">
+      <div className=" register col-md-5 mt-5 text-start shadow-lg p-3 mb-5 rounded">
         <h3
           className="text-center m-2"
           style={{ fontSize: "30px", color: "white" }}
@@ -46,7 +46,9 @@ export default function Registrationscreen() {
             value={cpassword}onChange={(e)=>{setcpassword(e.target.value)}}
           />
 
-          <button onClick={register} className="btn mt-3">Register</button>
+          <button onClick={register} className="btn mt-3 mb-3">Register</button>
+          <br/>
+          <a style={{color:'white', textDecoration:'none'}} href="/login"> Click Here To Login</a>
         </div>
       </div>
     </div>

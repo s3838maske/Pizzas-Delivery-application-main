@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Pizza from "../components/pizza";
 import axios from "axios";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -32,10 +34,10 @@ const Home = () => {
       <div className="row justify-content-center">
      
         {loading ? (
-          <h1>Loading...</h1>
+          <Loading/>
         ) : error ? (
-          <h1>Something went wrong: {error}</h1>
-        ) : (
+          <Error error='Something went wrong'/>
+          ) : (
           // Add an additional check for 'pizzas' before mapping
           Array.isArray(pizzas) ? (
             pizzas.map((pizza) => (

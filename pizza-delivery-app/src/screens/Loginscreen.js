@@ -32,11 +32,11 @@ export default function Loginscreen() {
   }
 
   return (
-    <div className="  row justify-content-center mt-5">
-      <div className=" register col-md-5 mt-5 text-start shadow p-3 mb-5  rounded">
+    <div className="  row justify-content-center mt-5 ">
+      <div className=" register col-md-5 mt-5 text-start shadow-lg p-3 mb-5 rounded">
         <h3
           className="text-center m-2"
-          style={{ fontSize: "30px", color: "white" }}
+          style= {{ fontSize: "30px", color: "white" }}
         >
           Login Page
         </h3>
@@ -62,9 +62,12 @@ export default function Loginscreen() {
             }}
           />
 
-          <button onClick={login} className="btn mt-3">
+          <button onClick={login} className="btn mt-3 mb-3">
             Login
           </button>
+          <br/>
+          <a  style={{color:'white' , textDecoration:'none'}}  href="/register"> Click Here To Register</a>
+
         </div>
       </div>
     </div>
