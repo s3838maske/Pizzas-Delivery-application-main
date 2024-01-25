@@ -11,11 +11,13 @@ connectToDatabase();
 
 const pizzasRoute = require('./routes/pizzaRoutes')
 const userRoute = require('./routes/userRoute')
+const orderRouter = require('./routes/ordersRoute')
 
 
 
 app.use('/api/pizzas/', pizzasRoute)
 app.use('/api/users/',userRoute)
+app.use('/api/orders/' , orderRouter)
 app.get("/", (req, res) => {
     res.send('Hello, this is your Node.js server!');
 });
