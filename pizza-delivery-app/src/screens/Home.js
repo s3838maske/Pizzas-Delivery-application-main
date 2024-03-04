@@ -14,7 +14,7 @@ const Home = () => {
       // console.log("Response:", response);
 
       setPizzas(response.data);
-      console.log(response.data)
+     
       setError(null);
     } catch (error) {
       // Handle errors
@@ -26,7 +26,7 @@ const Home = () => {
   };
 
   useEffect(() => { 
-    fetchData();
+  fetchData()
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   return (

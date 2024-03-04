@@ -7,32 +7,52 @@ const stripe = require("stripe")(
 
 router.post("/placeorder", async (req, res) => {
   const { token, subtotal, currentUser, cartItems } = req.body;
-
+//console.log(token, subtotal, currentUser, cartItems );
+  // Ensure subtotal is a valid number
+  if (isNaN(subtotal) || subtotal <= 0) {
+    return res.status(400).json({ message: "Invalid subtotal value" });
+  }
   try {
-    const customer = await stripe.customers.create({
+    // Check if the customer exists, if not, create a new customer
+    let customer = await stripe.customers.list({
       email: token.email,
-      source: token.id,
+      limit: 1,
     });
 
-    const payment = await stripe.charges.create(
-      {
-        amount: subtotal * 100,
-        currency: "inr",
-        customer: customer.id,
-        receipt_email: token.email,
+    if (customer.data.length === 0) {
+      const createdCustomer = await stripe.customers.create({
+        email: token.email,
+      });
+      customer = createdCustomer;
+    } else {
+      customer = customer.data[0];
+    }
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(subtotal * 100), // Ensure it's a valid integer
+      currency: "inr",
+      customer: customer.id,
+      payment_method_data: {
+        type: "card",
+        card: {
+          token: token.id,
+        },
       },
-      {
-        idempotencyKey: uuidv4(),
-      }
-    )
-  if (payment) {
-    res.send('Payment Done')
-  }
-  else {
-    res.send('Payment Failed')
-  }
+      receipt_email: token.email,
+      confirm: true,
+      return_url: "http://localhost:3000/",
+      automatic_payment_methods: {
+        enabled: true,
+        allow_redirects: "never",
+      },
+    });
+    // Confirm the PaymentIntent to finalize the payment
+    await stripe.paymentIntents.confirm(paymentIntent.id); 
+
+    res.json({ clientSecret: paymentIntent.client_secret, message: "Payment Done" });
   } catch (error) {
-    return res.status(400).json({ message: 'something went wrong' + error})
+    console.error("Error creating/payment confirmation:", error);
+    return res.status(400).json({ message: "Something went wrong" + error });
   }
 });
 

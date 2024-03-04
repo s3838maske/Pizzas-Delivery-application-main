@@ -22,7 +22,7 @@ export default function Loginscreen() {
     {
       window.location.href ='/'
     }
-
+   
   }, [])
 
   function login() {
